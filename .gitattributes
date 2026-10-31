@@ -1,0 +1,5 @@
+# 批处理和 PowerShell 脚本在 Windows 上必须是 CRLF，
+# 否则部分环境下解出的 LF 会让 .cmd 无法正常运行。
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+*.md  text eol=lf
