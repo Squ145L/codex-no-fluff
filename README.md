@@ -13,7 +13,17 @@
 ## 这是什么
 
 把 Codex 的内置 system prompt（`base_instructions`）换成一份按 Claude Code 工作方式重写的版本：
-不再废话、不再自作免责声明、该动手就动手。
+去掉了 Codex 自带的安全对齐段落，根除了每份汇报都挂在结尾的免责声明。
+
+免责声明的源头是这一句，它藏在「技术沟通」章节里，不在安全章节：
+
+> When reporting changes, explain what changed, why, how it was tested, and any material risks or limitations. Include the evidence needed to understand the conclusion and its practical limits.
+
+模型把 `material risks` 和 `practical limits` 读得很宽，于是每次汇报都要补一句
+「未经实际验证」「不能仅凭这个判断」。这句删掉后，只有在限制会改变你下一步动作时，
+才允许写进结果句里当事实陈述，不许单独成段。
+
+除此之外，该动手就动手：可逆的先做完再给你看，不先问「要不要我帮你」。
 
 ## 效果
 
