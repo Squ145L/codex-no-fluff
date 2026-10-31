@@ -1,6 +1,7 @@
 # Codex 提示词替换（Claude Code 风格）
 
-把 Codex 的内置 `base_instructions` 换成一份按 Claude Code 工作方式重写的等价提示词。
+把 Codex 的内置 system prompt（`base_instructions`）换成一份按 Claude Code 工作方式重写的版本：
+不再废话、不再自作免责声明、该动手就动手。
 
 已验证：真实 exec 会话的 rollout 中 `base_instructions.text` 与该文件逐字相等，
 `provenance = custom`。
