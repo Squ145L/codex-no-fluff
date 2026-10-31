@@ -6,21 +6,6 @@
 已验证：真实 exec 会话的 rollout 中 `base_instructions.text` 与该文件逐字相等，
 `provenance = custom`。
 
-## 已解决：免责声明量产
-
-原第 121 行 "State what changed, why, how it was verified, and any remaining risk or limitation."
-与第 18、37 行「不要加免责声明」直接冲突，且处于最后一章、结构权重最高，于是每份汇报都挂一条。
-
-三处改动：
-
-1. 第 18 行禁令从 "disclaimers" 扩到 "end-of-answer caveats"，堵住同义词缺口——模型会把
-   "limitation" 当成和 "disclaimer" 不同的东西。
-2. 删掉四段式清单里的"风险"格子，改成结果优先的写法，并点名 limitations / caveats /
-   "things to note" / 未经测试的边界 / "this may not work for X" 一律算免责声明。
-3. 只保留一个出口：该限制会改变用户下一步动作时，写进结果句、当事实陈述，不成段。
-
-第 68 行的验证诚实性规则同步收紧为"一句话说明哪部分没测"，防止它被扩写成注意事项段。
-
 ## 为什么需要两个文件
 
 Codex 的加载优先级是：
