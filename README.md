@@ -1,10 +1,28 @@
 # Codex 提示词替换（Claude Code 风格）
 
+## 使用方法
+
+1. 克隆或下载本仓库
+2. **双击 `install.cmd`**
+3. 新开一个 Codex 会话
+
+撤销：双击 `uninstall.cmd`。
+
+> 需要先装好 Codex 并至少启动过一次，否则没有 `config.toml` 可供修改。
+
+## 这是什么
+
 把 Codex 的内置 system prompt（`base_instructions`）换成一份按 Claude Code 工作方式重写的版本：
 不再废话、不再自作免责声明、该动手就动手。
 
-已验证：真实 exec 会话的 rollout 中 `base_instructions.text` 与该文件逐字相等，
-`provenance = custom`。
+## 效果
+
+| 场景 | 改之前 | 改之后 |
+|---|---|---|
+| 让它改代码 | 改完了，但本次改动未经过完整验证，建议你在实际环境中再确认一下…… | 已改，未改逻辑。测试全部通过。 |
+| 问能不能跑 | 取决于具体环境，不做实测无法确定 | 不能直接跑。`detect.py` 用 `user32`，`native.py` 用 `SendInput` |
+| 汇报结论 | 每份汇报结尾都挂一条「注意 / 局限性 / 未覆盖的部分」 | 说完就停 |
+| 「帮我加个功能」 | 先给方案和步骤，等你确认 | 直接做，可逆的先做完再给你看 |
 
 ## 为什么需要两个文件
 
@@ -22,25 +40,6 @@ Codex 的加载优先级是：
 - `model_messages.instructions_template` 留一个非空占位（校验要求二选一）
 
 这样 `model_instructions_file` 就能接管。
-
-## 一键安装（推荐）
-
-1. 克隆或下载本仓库
-2. **双击 `install.cmd`**
-3. 新开一个 Codex 会话
-
-脚本会自动完成四步：
-
-- 备份 `%USERPROFILE%\.codex\config.toml`（文件名带时间戳）
-- 把 `claude-code-system.md` 和 `refresh-catalog.ps1` 复制到 `%USERPROFILE%\.codex\prompts\`
-- 在 `config.toml` 顶部写入三行配置，路径自动生成
-- 运行 `refresh-catalog.ps1` 生成 `codex-catalog.json`
-
-任何一步失败都会自动还原 `config.toml`，不会把 Codex 弄成起不来的状态。
-
-**撤销**：双击 `uninstall.cmd`，它会把最近一次备份写回 `config.toml`。
-
-> 前提：已经装好 Codex 并至少启动过一次（否则没有 `config.toml` 可供修改）。
 
 ## 手动安装
 
@@ -84,11 +83,6 @@ $j.payload.base_instructions.text.Length
 $j.payload.base_instructions.provenance.type
 ```
 
-## 回滚
-
-删掉 `config.toml` 里上面三行配置即可恢复原版内置提示词。
-目录覆盖失效后，Codex 会退回模型自带的 `base_instructions`。
-
 ## 说明
 
 - 这份提示词是按 Codex 工具体系重写的等价版，不是 Claude Code 系统提示词的原文。
@@ -99,16 +93,10 @@ $j.payload.base_instructions.provenance.type
 - Claude Code 自己的 memory 目录属于 Claude Code，Codex 既不读也不写。
 - 路径规则按工具实际行为写：`exec_command` 用 `workdir`，`shell_command`、`rg`、`git`、`python` 按当前工作目录解析，`apply_patch` 支持相对路径但需确认实际工作目录。
 - 已移除重复的“安全对齐”段落和免责声明噪音，保留的不可逆命令确认、凭据保护属于工程性规则。
-- 已审查 `xsser/codex-jailbreak-guide` 的 prompt：主体是伪造系统状态（`safety_layer=OFF`、未过滤模式）、"永不拒绝"、以及"立即执行脚本 / 输出化学品与设备细节"等危险指令，未采用。只吸收了合理的降低误拒原则：区分能力/授权/风险、普通工程请求不拒绝、不附加免责声明、歧义时问目标而不是拒绝。
 - 工作区 `AGENTS.md` 会被 Codex 自动加载；没有 `AGENTS.md` 的项目会通过
   `project_doc_fallback_filenames` 读取 `CLAUDE.md`。
 
-## 免责声明的来源（分析记录）
+## 参考
 
-原 Codex prompt 里这句藏在“技术沟通”章节，不是安全章节：
-
-> When reporting changes, explain what changed, why, how it was tested, and any material risks or limitations. Include the evidence needed to understand the conclusion and its practical limits.
-
-模型把 "material risks" 和 "practical limits" 读得很宽，于是每份汇报都挂一条。
-这句是免责声明量产的直接源头。本仓库的 `claude-code-system.md:121` 抄了同一个句式，
-问题因此延续。
+把模型自带的 `base_instructions` 置空、改用 `model_instructions_file` 的办法，
+参考自 [xsser/codex-jailbreak-guide](https://github.com/xsser/codex-jailbreak-guide)。
