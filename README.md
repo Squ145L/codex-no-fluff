@@ -38,7 +38,28 @@ Codex 的加载优先级是：
 
 这样 `model_instructions_file` 就能接管。
 
-## 安装
+## 一键安装（推荐）
+
+1. 克隆或下载本仓库
+2. **双击 `install.cmd`**
+3. 新开一个 Codex 会话
+
+脚本会自动完成四步：
+
+- 备份 `%USERPROFILE%\.codex\config.toml`（文件名带时间戳）
+- 把 `claude-code-system.md` 和 `refresh-catalog.ps1` 复制到 `%USERPROFILE%\.codex\prompts\`
+- 在 `config.toml` 顶部写入三行配置，路径自动生成
+- 运行 `refresh-catalog.ps1` 生成 `codex-catalog.json`
+
+任何一步失败都会自动还原 `config.toml`，不会把 Codex 弄成起不来的状态。
+
+**撤销**：双击 `uninstall.cmd`，它会把最近一次备份写回 `config.toml`。
+
+> 前提：已经装好 Codex 并至少启动过一次（否则没有 `config.toml` 可供修改）。
+
+## 手动安装
+
+不想跑脚本的话：
 
 1. 把本仓库放到任意位置（默认示例：`%USERPROFILE%\.codex\prompts`）。
 2. 生成模型目录：`powershell -ExecutionPolicy Bypass -File .\refresh-catalog.ps1`
