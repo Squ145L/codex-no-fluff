@@ -105,8 +105,3 @@ $j.payload.base_instructions.provenance.type
 - 已移除重复的“安全对齐”段落和免责声明噪音，保留的不可逆命令确认、凭据保护属于工程性规则。
 - 工作区 `AGENTS.md` 会被 Codex 自动加载；没有 `AGENTS.md` 的项目会通过
   `project_doc_fallback_filenames` 读取 `CLAUDE.md`。
-
-## 参考
-
-把模型自带的 `base_instructions` 置空、改用 `model_instructions_file` 的办法，
-参考自 [xsser/codex-jailbreak-guide](https://github.com/xsser/codex-jailbreak-guide)。
