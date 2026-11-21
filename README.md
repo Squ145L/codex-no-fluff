@@ -6,7 +6,9 @@
 2. **双击 `install.cmd`**
 3. 新开一个 Codex 会话
 
-撤销：双击 `uninstall.cmd`。
+删除：双击 `uninstall.cmd`。
+
+新增模型后 (如GPT6.2更新后) 需要点击一次 `refresh.cmd` 刷新模型列表
 
 > 需要先装好 Codex 并至少启动过一次，否则没有 `config.toml` 可供修改。
 
@@ -74,7 +76,7 @@ project_doc_fallback_filenames = ["CLAUDE.md"]
 ## 什么时候要刷新目录
 
 OpenAI 新增或更新模型后，`codex-catalog.json` 是旧的，新模型不会出现。
-运行 `refresh-catalog.ps1` 即可。
+双击 `refresh.cmd` 即可。
 
 脚本会临时注释掉 `model_catalog_json`、重新 dump 默认目录、重新置空后写回，
 并在 `finally` 中恢复 `config.toml`。路径全部自动推导，`codex.exe` 从 PATH
