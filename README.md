@@ -76,7 +76,7 @@ project_doc_fallback_filenames = ["CLAUDE.md"]
 ## 什么时候要刷新目录
 
 OpenAI 新增或更新模型后，`codex-catalog.json` 是旧的，新模型不会出现。
-双击 `refresh.cmd` 即可。
+双击 `refresh.cmd` 即可。它调用 `%USERPROFILE%\.codex\prompts\refresh-catalog.ps1`，刷新安装后的模型目录。
 
 脚本会临时注释掉 `model_catalog_json`、重新 dump 默认目录、重新置空后写回，
 并在 `finally` 中恢复 `config.toml`。路径全部自动推导，`codex.exe` 从 PATH
